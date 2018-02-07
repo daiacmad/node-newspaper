@@ -12,9 +12,8 @@ var userModel = mongoose.model('Users', userSchema);
 router.post('/login', function(req, res, next) {
 
   userModel.findOne( { "userName" : req.body.userName} ,function(err , resData){
-
-    if(err){
-      res.send({
+    if(err || !resData){
+      return res.send({
         status:false,
         message:"user or password invalid"
       }); 
@@ -22,7 +21,7 @@ router.post('/login', function(req, res, next) {
 
     if(resData.password == req.body.password){
       res.send({
-        ok:true,
+        status:true,
         message:"login success",
         token: "96e79218965eb72c92a549dd5a330112"
       })
