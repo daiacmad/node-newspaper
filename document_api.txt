@@ -1,0 +1,51 @@
+------------------------User------------------------
+Method : POST
+Path : "/users/login"
+Body : {
+    userName : String,
+    password : String
+}
+
+------------------------Categories------------------
+---Create
+Method : POST
+Path : "/categories/create"
+Body :{
+    title:{
+        type:String,
+        required: true
+    },
+    description:String,
+    slug:{
+        type:String,
+        required:true
+    }
+}
+
+---List
+Method : GET
+Path : "/categories/list"
+
+
+---Detail
+Method : GET
+Path : "/categories/detail/:id"
+
+
+---Delete
+Method : GET
+Path : "/categories/delete/:id"
+
+---Update
+Method : POST
+Path : "/categories/update"
+Body : {
+    id:{
+        type : String,
+        required :true
+    },
+    title : String,
+    description : String,
+    slug : String
+}
+
