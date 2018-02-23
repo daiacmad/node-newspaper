@@ -46,15 +46,40 @@ router.post('/create', function(req, res, next) {
 });
 
 router.get("/list" , function(req , res ,next){
-    articlesModel.find( function(err , resData){
-        if(err) {
-            return res.send({
-                ok:false,
-                messsage:"đéo lấy đc data"
+    if(req.query.page && req.query.itemPerPage){
+        articlesModel.count({} , function(err , resCount){
+            articlesModel.find({})
+                .skip( ( parseInt(req.query.page) - 1) * parseInt(req.query.itemPerPage) )
+                .limit( parseInt(req.query.itemPerPage) )
+                .exec(function(err , resData){
+                    if(err) {
+                        return res.send({
+                            ok:false,
+                            data:err
+                        });
+                    }
+                    res.send({
+                        ok:true,
+                        data:resData,
+                        TotalItem: resCount
+                    });
+                });
+        })
+        
+    }else{
+        articlesModel.find( function(err , resData){
+            if(err) {
+                return res.send({
+                    ok:false,
+                    data:err
+                });
+            }
+            res.send({
+                ok:true,
+                data:resData
             });
-        }
-        res.send(resData);
-    })
+        })
+    }
 });
 
 router.get("/detail/:id" , function(req ,res , next){
